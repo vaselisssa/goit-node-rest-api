@@ -14,14 +14,15 @@ import {
 
 const contactsRouter = express.Router();
 
-contactsRouter.get("/", getAllContacts);
+contactsRouter
+   .route("/")
+   .get(getAllContacts)
+   .post(validateBody(createContactSchema), createContact);
 
-contactsRouter.get("/:id", getOneContact);
-
-contactsRouter.delete("/:id", deleteContact);
-
-contactsRouter.post("/", validateBody(createContactSchema), createContact);
-
-contactsRouter.put("/:id", validateBody(updateContactSchema), updateContact);
+contactsRouter
+   .route("/:id")
+   .get(getOneContact)
+   .delete(deleteContact)
+   .put(validateBody(updateContactSchema), updateContact);
 
 export default contactsRouter;

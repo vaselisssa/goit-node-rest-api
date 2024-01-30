@@ -10,13 +10,7 @@ import ctrlWrapper from "../helpers/ctrlWrapper.js";
 
 export const getAllContacts = ctrlWrapper(async (_, res) => {
    const result = await listContacts();
-   res.json({
-      status: "success",
-      code: 200,
-      data: {
-         result,
-      },
-   });
+   res.json(result);
 });
 
 export const getOneContact = ctrlWrapper(async (req, res) => {
