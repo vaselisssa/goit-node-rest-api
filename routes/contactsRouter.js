@@ -6,14 +6,12 @@ import {
    createContact,
    updateContact,
    updateStatusContact,
-} from "../controllers/contactsControllers.js";
-import {
-   createContactSchema,
-   updateContactSchema,
-   updateFavoriteSchema,
-} from "../schemas/contactsSchemas.js";
-import validateBody from "../midlewares/validateBody.js";
-import validateId from "../midlewares/validateId.js";
+} from "../controllers/contacts/index.js";
+import { contactsSchemas } from "../schemas/index.js";
+import { validateBody, validateId } from "../midlewares/index.js";
+
+const { createContactSchema, updateContactSchema, updateFavoriteSchema } =
+   contactsSchemas;
 
 const contactsRouter = express.Router();
 
@@ -39,4 +37,4 @@ contactsRouter.patch(
    updateStatusContact
 );
 
-export default contactsRouter;
+export { contactsRouter };

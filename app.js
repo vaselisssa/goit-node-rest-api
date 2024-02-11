@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 import colors from "colors";
 import { connect } from "mongoose";
 
-import contactsRouter from "./routes/contactsRouter.js";
+import { contactsRouter } from "./routes/index.js";
 
 dotenv.config();
 const { DB_HOST, PORT } = process.env;

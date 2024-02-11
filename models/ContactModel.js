@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import handleMongooseError from "../midlewares/handleMongooseError.js";
+import { handleMongooseError } from "../midlewares/index.js";
 
 const contactSchema = new Schema(
    {
