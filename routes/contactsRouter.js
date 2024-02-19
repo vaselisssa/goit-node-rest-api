@@ -8,23 +8,33 @@ import {
    updateStatusContact,
 } from "../controllers/contacts/index.js";
 import { contactsSchemas } from "../schemas/index.js";
-import { validateBody, validateId } from "../midlewares/index.js";
+import {
+   authMiddleware,
+   validateBody,
+   validateId,
+} from "../midlewares/index.js";
 
 const { createContactSchema, updateContactSchema, updateFavoriteSchema } =
    contactsSchemas;
 
 const contactsRouter = express.Router();
 
-contactsRouter.get("/", getAllContacts);
+contactsRouter.get("/", authMiddleware, getAllContacts);
 
-contactsRouter.get("/:id", validateId, getOneContact);
+contactsRouter.get("/:id", authMiddleware, validateId, getOneContact);
 
-contactsRouter.delete("/:id", validateId, deleteContact);
+contactsRouter.delete("/:id", authMiddleware, validateId, deleteContact);
 
-contactsRouter.post("/", validateBody(createContactSchema), createContact);
+contactsRouter.post(
+   "/",
+   authMiddleware,
+   validateBody(createContactSchema),
+   createContact
+);
 
 contactsRouter.put(
    "/:id",
+   authMiddleware,
    validateId,
    validateBody(updateContactSchema),
    updateContact
@@ -32,6 +42,7 @@ contactsRouter.put(
 
 contactsRouter.patch(
    "/:id/favorite",
+   authMiddleware,
    validateId,
    validateBody(updateFavoriteSchema),
    updateStatusContact
