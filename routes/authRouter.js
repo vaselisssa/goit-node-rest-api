@@ -5,9 +5,10 @@ import {
    getCurrent,
    logout,
    updateSubscription,
+   updateAvatar,
 } from "../controllers/auth/index.js";
 import { authSchemas } from "../schemas/index.js";
-import { authMiddleware, validateBody } from "../midlewares/index.js";
+import { authMiddleware, validateBody, upload } from "../midlewares/index.js";
 
 const { registerSchema, loginSchema, updateSubscriptionSchema } = authSchemas;
 
@@ -26,6 +27,13 @@ authRouter.patch(
    authMiddleware,
    validateBody(updateSubscriptionSchema),
    updateSubscription
+);
+
+authRouter.patch(
+   "/avatars",
+   authMiddleware,
+   upload.single("avatar"),
+   updateAvatar
 );
 
 export { authRouter };
