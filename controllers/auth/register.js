@@ -1,8 +1,13 @@
 import bcryptjs from "bcryptjs";
 import gravatar from "gravatar";
 import asyncHandler from "express-async-handler";
+import { nanoid } from "nanoid";
+import dotenv from "dotenv";
 import { User } from "../../models/index.js";
-import { HttpError } from "../../helpers/index.js";
+import { HttpError, sendEmail } from "../../helpers/index.js";
+
+dotenv.config();
+const { PORT } = process.env;
 
 export const register = asyncHandler(async (req, res) => {
    const { email, password } = req.body;
@@ -14,11 +19,22 @@ export const register = asyncHandler(async (req, res) => {
 
    const hashPassword = await bcryptjs.hash(password, 10);
    const avatarURL = gravatar.url(email);
+   const verificationToken = nanoid();
+
    const newUser = await User.create({
       ...req.body,
       password: hashPassword,
       avatarURL,
+      verificationToken,
    });
+
+   const verifyEmail = {
+      to: email,
+      subject: "Email Verification",
+      html: `<a href="http://localhost:${PORT}/users/verify/${verificationToken}">Click to verify email.</a>`,
+   };
+
+   await sendEmail(verifyEmail);
 
    res.status(201).json({
       user: {

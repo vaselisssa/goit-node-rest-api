@@ -6,7 +6,6 @@ import { User } from "../../models/index.js";
 import { HttpError } from "../../helpers/index.js";
 
 const avatarsDir = path.resolve("public", "avatars");
-console.log(avatarsDir);
 
 export const updateAvatar = asyncHandler(async (req, res) => {
    const { _id } = req.user;
